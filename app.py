@@ -1,4 +1,4 @@
-import streamlit as st
+Aort streamlit as st
 import supabase
 from supabase import create_client, Client
 from transformers import pipeline
@@ -130,4 +130,4 @@ with st.sidebar:
         st.write(f"**{r['product_name']}**: {r['sentiment_score']:.1%}")
 
 st.markdown("---")
-st.markdown("Questions? Reply to your Gumroad email. | [Privacy](https://example.com/A
+st.markdown("Questions? Reply to your Gumroad email. | [Privacy](https://example.com/privacy)")
