@@ -13,10 +13,14 @@ SUPABASE_KEY = st.secrets["SUPABASE_ANON_KEY"]
 GUMROAD_ACCESS_TOKEN = st.secrets["GUMROAD_ACCESS_TOKEN"]
 GUMROAD_PRODUCT_ID = st.secrets["GUMROAD_PRODUCT_ID"]
 
-# Init
+# Init Supabase (non-Streamlit)
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-@st.cache_resource
+# UI Config FIRST (no st. calls before this!)
+st.set_page_config(page_title="Product Review AI", layout="wide")
+
+# Now safe for other st. stuff; load model (no decorator yet—call it on-demand)
+@st.cache_resource  # Apply here, after config
 def load_sentiment_model():
     return pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
 
@@ -66,17 +70,14 @@ def save_review(user_id: str, product: str, summary: dict):
     data = {"user_id": user_id, "product_name": product, "sentiment_score": summary["avg_score"], "review_summary": json.dumps(summary["details"]), "created_at": datetime.now().isoformat()}
     supabase.table("saved_reviews").insert(data).execute()
 
-# UI
-st.set_page_config(page_title="Product Review AI", layout="wide")
-st.title("🚀 Product Review AI")
-st.markdown("**Premium-Only: Unlock deep, AI-driven reviews for $10/mo.** Honest insights from Reddit + Google to save you money.")
-
 # Premium Gate
 if "subbed" not in st.session_state:
     st.session_state.subbed = False
     st.session_state.email = None
 
 if not st.session_state.subbed:
+    st.title("🚀 Product Review AI")
+    st.markdown("**Premium-Only: Unlock deep, AI-driven reviews for $10/mo.** Honest insights from Reddit + Google to save you money.")
     st.warning("👋 Welcome! Verify your $10/mo Gumroad sub to access.")
     col1, col2 = st.columns(2)
     with col1:
@@ -97,6 +98,7 @@ if not st.session_state.subbed:
     st.stop()
 
 # Logged-In UI
+st.title("🚀 Product Review AI")  # Re-title post-gate
 st.success("Premium active! Unlimited analyses.")
 product = st.text_input("Enter product/service (e.g., 'iPhone 15 Pro')")
 
