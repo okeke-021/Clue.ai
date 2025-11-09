@@ -1,6 +1,7 @@
 streamlit==1.38.0
 supabase
-transformers==4.45.1
-torch
+transformers==4.57.1
+torch --index-url https://download.pytorch.org/whl/cpu
+tokenizers==0.20.7  # Explicit for 3.13 support
 requests==2.32.3
 plotly==5.24.0
