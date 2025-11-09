@@ -1,4 +1,4 @@
-Aort streamlit as st
+import streamlit as st
 import supabase
 from supabase import create_client, Client
 from transformers import pipeline
