@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 
 # Secrets (Streamlit Pro dashboard)
 SUPABASE_URL = st.secrets["SUPABASE_URL"]
-SUPABASE_KEY = st.secrets["SUPABASE_ANON_KEY"]
+SUPABASE_ANON_KEY = st.secrets["SUPABASE_ANON_KEY"]
 GUMROAD_ACCESS_TOKEN = st.secrets["GUMROAD_ACCESS_TOKEN"]
 GUMROAD_PRODUCT_ID = st.secrets["GUMROAD_PRODUCT_ID"]  # e.g., "abc123def"
 
